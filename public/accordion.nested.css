@@ -8,7 +8,13 @@ body {
           box-sizing: border-box;
 }
 
-@media screen and (max-width: 1015px) {
+#nested-accordion .detail-card-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 30px;
+}
+
+@media screen and (max-width: 1433px) {
   #nested-accordion .detail-card-container {
     position: fixed;
     top: 0;
@@ -38,6 +44,8 @@ body {
   top: 30px;
   width: 305px;
   min-width: 305px;
+  -webkit-animation: slideLeft 0.26s ease-out 1;
+          animation: slideLeft 0.26s ease-out 1;
   background: #ffffff;
   border-radius: 10px;
   overflow: hidden;
@@ -45,15 +53,9 @@ body {
           box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (min-width: 1015px) {
+@media screen and (max-width: 1433px) {
   #nested-accordion #detail-card {
-    right: 14px;
-  }
-}
-
-@media screen and (max-width: 1015px) {
-  #nested-accordion #detail-card {
-    position: fixed;
+    top: 0 !important;
   }
 }
 
@@ -88,32 +90,6 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding-bottom: 24px !important;
   padding-top: 24px !important;
-}
-
-#nested-accordion #detail-card h1 .close-btn {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
-  background: #f8f9fa;
-  color: #000000;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 30px;
-  height: 30px;
-}
-
-@media screen and (min-width: 1015px) {
-  #nested-accordion #detail-card h1 > .close-btn {
-    display: none;
-  }
 }
 
 #nested-accordion #detail-card .urls a,
@@ -212,7 +188,6 @@ body {
 #nested-accordion #detail-card .read-case-study:hover {
   color: #ffffff;
   background: #a466ff url("/svg/dots-hover.svg") no-repeat bottom center;
-  background-size: cover;
 }
 
 #nested-accordion #detail-card .read-case-study:hover::before {
@@ -388,7 +363,7 @@ body {
   text-align: left;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1250px) {
   #nested-accordion .accordion:not(.parent) {
     -webkit-box-flex: 100% !important;
         -ms-flex: 100% !important;
@@ -417,7 +392,7 @@ body {
   width: 100%;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1250px) {
   #nested-accordion .category-items {
     -ms-grid-columns: (1fr)[1] !important;
         grid-template-columns: repeat(1, 1fr) !important;
@@ -477,13 +452,5 @@ body {
   -webkit-box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.2);
   background: #fff !important;
-}
-
-@media screen and (max-width: 1260px) and (min-width: 992px) {
-  #nested-accordion .accordion[data-section="Applications"] .content > div[data-section="Applications"] {
-    -webkit-box-flex: 40% !important;
-        -ms-flex: 40% !important;
-            flex: 40% !important;
-  }
 }
 /*# sourceMappingURL=accordion.nested.css.map */

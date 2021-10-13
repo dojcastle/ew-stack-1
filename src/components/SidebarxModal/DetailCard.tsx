@@ -1,37 +1,14 @@
-import { useContext, useEffect } from "react";
-import { updatedSelectedItem } from "../../App";
-import { AccordionContent } from "../Accordion/schema/AccordionSchemaType";
+import { useContext } from "react";
 import SidebarxModalProvider from "./SidebarxModalProvider";
 
-interface DetailCardProps {
-  data: AccordionContent | undefined;
-}
-
-export default function DetailCard(props: DetailCardProps) {
+export default function DetailCard() {
   const context = useContext(SidebarxModalProvider);
-
-  useEffect(() => {
-    if (
-      context &&
-      !context?.current &&
-      props.data &&
-      window.innerWidth >= 1015
-    ) {
-      context.setCurrent(props.data);
-    }
-    if (!context?.current) {
-      document.querySelectorAll(".item.selected").forEach((el) => {
-        el.classList.remove("selected");
-      });
-      updatedSelectedItem();
-    }
-  }, [context]);
-
+  if (!context) return null;
   if (context?.current) {
     const {
       current: {
         title,
-        body = "",
+        body,
         variant = "simple",
         urls: { sources = [], readCaseStudy = null } = {},
       },
@@ -57,18 +34,7 @@ export default function DetailCard(props: DetailCardProps) {
             .join(" ")
             .trim()}
         >
-          <h1>
-            {title}
-
-            <span
-              className="close-btn"
-              onClick={() => {
-                setCurrent(props.data);
-              }}
-            >
-              &times;
-            </span>
-          </h1>
+          <h1>{title}</h1>
           <div
             className="body"
             dangerouslySetInnerHTML={{

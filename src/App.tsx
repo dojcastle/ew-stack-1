@@ -8,55 +8,40 @@ import validateSchema from "./components/Accordion/schema/utils/validateSchema";
 import DetailCard from "./components/SidebarxModal/DetailCard";
 import SidebarxModalProvider from "./components/SidebarxModal/SidebarxModalProvider";
 
-declare global {
-  interface Window {
-    r: any;
-    x: any;
+const updateDetailCardPosition = (
+  currentTarget: HTMLElement | null | Event
+) => {
+  if (window.innerWidth < 1433) {
+    return;
   }
-}
-
-export function updatedSelectedItem() {
-  document.querySelectorAll(".item").forEach((el) => {
-    const element = el as HTMLElement;
-    if (!element.classList.contains("selected")) {
-      element.style.color = element.getAttribute("data-initial-color") + "";
-    }
-  });
-}
-
-const updateDetailCardPosition = () => {
   const detailCard = document.querySelector("#detail-card");
-  const rootDiv = window.parent.document.querySelector("#nested-accordion");
-  const internalDiv = document.querySelector("#nested-accordion");
-  let top, bottom;
+  let top;
 
-  top = window.parent.document.body.getBoundingClientRect().top * -1;
+  if (currentTarget instanceof HTMLElement) {
+    top =
+      currentTarget.getBoundingClientRect().top -
+      document.body.getBoundingClientRect().top;
+  }
 
-  if (rootDiv && rootDiv?.getBoundingClientRect().top < 20) {
-    top -= top + rootDiv.getBoundingClientRect().top;
+  if (detailCard instanceof HTMLElement) {
+    const selectedItem = document.querySelector(".item.selected");
 
-    if (detailCard instanceof HTMLElement) {
-      if (internalDiv) {
-        let topOffset =
-          rootDiv.getBoundingClientRect().top +
-          window.parent.document.documentElement.scrollTop;
-        bottom = topOffset + internalDiv.clientHeight;
-        if (
-          window.parent.document.documentElement.scrollTop +
-            detailCard.clientHeight >
-          bottom
-        ) {
-          return;
-        }
-      }
-      detailCard.style.top = top + 20 + "px";
+    if (
+      window.scrollY &&
+      selectedItem &&
+      window.scrollY > selectedItem.getBoundingClientRect().top
+    ) {
+      top = window.scrollY + 30;
+    } else {
+      top = selectedItem?.getBoundingClientRect().top;
     }
+    detailCard.style.top = top + "px";
+    detailCard.style.right = "0px";
   }
 };
 
 function App() {
   const [data, setData] = useState<AccordionType[]>();
-  const [detailCardData, setDetailCardData] = useState<AccordionContent>();
   const [current, setCurrent] = useState<AccordionContent>();
   const [error, setError] = useState<String>();
 
@@ -69,9 +54,10 @@ function App() {
     return (
       <Accordion
         key={index}
+        title={accordion.title}
         parent={true}
+        isOpen={accordion.open}
         data-section={accordion.title}
-        {...accordion}
       >
         {accordion.content &&
           accordion.content.map((subAccordion, index) =>
@@ -80,7 +66,11 @@ function App() {
               {
                 arrow: false,
                 key: index,
-                ...subAccordion,
+                title: subAccordion.title,
+                color: subAccordion.color,
+                background: subAccordion.background,
+                isOpen: subAccordion.open,
+                fullWidth: subAccordion.fullWidth,
                 style: {
                   flex: subAccordion.columns || 1,
                 },
@@ -135,14 +125,21 @@ function App() {
                             setCurrent(section.content);
                           } else {
                             currentTarget.classList.remove("selected");
+
                             setCurrent(undefined);
                           }
 
-                          updatedSelectedItem();
+                          document.querySelectorAll(".item").forEach((el) => {
+                            const element = el as HTMLElement;
+                            if (!element.classList.contains("selected")) {
+                              element.style.color =
+                                element.getAttribute("data-initial-color") + "";
+                            }
+                          });
 
-                          setTimeout(() => {
-                            updateDetailCardPosition();
-                          }, 0);
+                          // setTimeout(() => {
+                          //   updateDetailCardPosition(currentTarget);
+                          // }, 0);
                         }}
                       >
                         <h1>{section.title}</h1>
@@ -166,14 +163,11 @@ function App() {
         if (validateSchema(data).errors.length) {
           setError(validateSchema(data).errors[0].stack);
         } else {
-          setData(data.data);
-          setDetailCardData(data.detailCard);
+          setData(data);
         }
       });
-    window.parent.addEventListener("scroll", updateDetailCardPosition);
-    return () => {
-      window.parent.removeEventListener("scrool", updateDetailCardPosition);
-    };
+    // window.addEventListener("scroll", updateDetailCardPosition);
+    return () => {};
   }, []);
 
   return (
@@ -181,7 +175,7 @@ function App() {
       <div className="wrapper">
         {error && <b>{error}</b>}
         {data && !error && NestedAccordion(0)}
-        <DetailCard data={detailCardData} />
+        <DetailCard />
       </div>
     </SidebarxModalProvider.Provider>
   );

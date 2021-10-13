@@ -10,9 +10,6 @@
     "columns": { "type": "number" },
     "fullWidth": { "type": "boolean" },
     "expandable": { "type": "boolean" },
-    "disabled": {
-      "type": "boolean"
-    },
     "selected": {
       "type": "object",
       "properties": {
@@ -22,7 +19,23 @@
       }
     },
     "content": {
-      "$ref": "/AccordionContent"
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "urls": {
+          "type": "object",
+          "properties": {
+            "sources": { "type": "array" },
+            "readCaseStudy": { "type": "string" }
+          }
+        },
+        "variant": { "type": "string" }
+      }
     },
     "sections": { "type": "array", "items": { "$ref": "/AccordionSection" } }
   }

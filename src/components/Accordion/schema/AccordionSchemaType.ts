@@ -22,7 +22,6 @@ interface AccordionSection {
   open?: boolean;
   fullWidth?: boolean;
   expandable?: boolean;
-  disabled?: boolean;
   selected?: {
     color: string;
   };
@@ -31,6 +30,5 @@ interface AccordionSection {
 export interface AccordionType {
   open?: boolean;
   title: string;
-  disabled?: boolean;
   content: AccordionSection[];
 }
