@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "detailCard": {
+      "$ref": "/AccordionContent"
+    },
+    "items": { "$ref": "/AccordionSchema" }
+  },
+  "required": true
+}

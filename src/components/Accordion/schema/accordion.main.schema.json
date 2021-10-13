@@ -1,0 +1,20 @@
+{
+  "id": "/AccordionSchema",
+  "type": "object",
+  "properties": {
+    "open": {
+      "type": "boolean"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "disabled": {
+      "type": "boolean"
+    },
+    "content": {
+      "type": "array",
+      "items": { "$ref": "/AccordionSection" }
+    }
+  }
+}
