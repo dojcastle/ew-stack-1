@@ -251,7 +251,7 @@
         "sectionColor": "#006CF0",
         "fullWidth": true,
         "columns": 3,
-        "open": true,
+        "open": false,
         "expandable": true,
         "sections": [
           {
@@ -300,7 +300,7 @@
         "color": "#7907FE",
         "sectionColor": "#A466FF",
         "columns": 4,
-        "open": true,
+        "open": false,
         "fullWidth": true,
         "expandable": true,
         "sections": [
@@ -381,7 +381,7 @@
   },
   {
     "title": "Trust Layer",
-    "open": true,
+    "open": false,
     "content": [
       {
         "title": "Energy Web Chain & Tools",
